@@ -15,14 +15,11 @@ currencyTo = "USD"
 amount = "2"
 
 payloadVolatility = {
-	'from' : 'CAD',
-	'to' : 'USD'
+	'from' : 'USD',
+	'to' : 'CAD',
+	'start_date' : '2019-01-01'
 }
 
-convertFrom = xecd.convert_from(currencyFrom, currencyTo, amount)
-historicRate = xecd.historic_rate("2016-12-25", "12:34", currencyFrom, currencyTo, 55)
 statsVolatility = requests.get(xe_volatility, auth=(account_sid, auth_token), params=payloadVolatility)
 
-info = xecd.account_info()
-
-print(statsVolatility)
+print(statsVolatility.text)
