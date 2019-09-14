@@ -5,6 +5,8 @@ import config
 fromCurrency = 'USD'
 toCurrency = 'CAD'
 amountToConvert = 200032
+time = '2017-03-05'
+
 
 xe_url = 'https://xecdapi.xe.com/v1/account_info'
 xe_url_change = 'https://xecdapi.xe.com/v1/convert_from.json/'
@@ -22,10 +24,14 @@ payloadCurrencyConversion = {
 payloadHistoricRate = {
 	'from': fromCurrency,
 	'to' : toCurrency,
-	'date' : amountToConvert,
-	'time'
+	'amount' : amountToConvert,
+	'date' : time
 }
 
 
-response = requests.get(xe_url_change, auth=(account_sid, auth_token), params=payloadCurrencyConversion)
-print(response.text)
+current_rate = requests.get(xe_url_change, auth=(account_sid, auth_token), params=payloadCurrencyConversion)
+
+historic_rate = requests.get(xe_url_historic, auth=(account_sid, auth_token), params=payloadHistoricRate)
+
+print(historic_rate.text)
+print(current_rate.text)
