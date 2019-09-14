@@ -1,37 +1,30 @@
+import config
 import requests
 import json
-import config
-
-fromCurrency = 'USD'
-toCurrency = 'CAD'
-amountToConvert = 200032
-time = '2017-03-05'
-
-
-xe_url = 'https://xecdapi.xe.com/v1/account_info'
-xe_url_change = 'https://xecdapi.xe.com/v1/convert_from.json/'
-xe_url_historic = 'https://xecdapi.xe.com/v1/historic_rate.json/'
+from xecd_rates_client import XecdClient
 
 account_sid = config.ACCOUNT_SID
 auth_token = config.AUTH_KEY
 
-payloadCurrencyConversion = {
-	'from': fromCurrency,
-	'to' : toCurrency,
-	'amount' : amountToConvert
+xecd = XecdClient(account_sid, auth_token)
+
+xe_volatility = 'https://xecdapi.xe.com/v1/stats'
+
+currencyFrom = "CAD"
+currencyTo = "USD"
+amount = "2"
+
+payloadVolatility = {
+	'from' : 'CAD',
+	'to' : 'USD',
+	'start_date' : '2017-09 22',
+	'end_date' : '2019-09 10'
 }
 
-payloadHistoricRate = {
-	'from': fromCurrency,
-	'to' : toCurrency,
-	'amount' : amountToConvert,
-	'date' : time
-}
+convertFrom = xecd.convert_from(currencyFrom, currencyTo, amount)
+historicRate = xecd.historic_rate("2016-12-25", "12:34", currencyFrom, currencyTo, 55)
+statsVolatility = requests.get(xe_volatility, auth=(account_sid, auth_token), params=payloadVolatility)
 
+info = xecd.account_info()
 
-current_rate = requests.get(xe_url_change, auth=(account_sid, auth_token), params=payloadCurrencyConversion)
-
-historic_rate = requests.get(xe_url_historic, auth=(account_sid, auth_token), params=payloadHistoricRate)
-
-print(historic_rate.text)
-print(current_rate.text)
+print(statsVolatility)
