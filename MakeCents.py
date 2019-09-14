@@ -22,4 +22,8 @@ payloadVolatility = {
 
 statsVolatility = requests.get(xe_volatility, auth=(account_sid, auth_token), params=payloadVolatility)
 
-print(statsVolatility.text)
+binary = statsVolatility.text
+stats = json.loads(binary)
+
+print(stats['stats'][0]['volatility'])
+print(binary)
