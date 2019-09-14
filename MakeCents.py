@@ -16,9 +16,7 @@ amount = "2"
 
 payloadVolatility = {
 	'from' : 'CAD',
-	'to' : 'USD',
-	'start_date' : '2017-09 22',
-	'end_date' : '2019-09 10'
+	'to' : 'USD'
 }
 
 convertFrom = xecd.convert_from(currencyFrom, currencyTo, amount)
